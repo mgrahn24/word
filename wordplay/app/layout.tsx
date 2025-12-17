@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Word Roguelike Prototype",
-  description: "A simple roguelike word battle prototype.",
+  title: "WordGame Prototype",
+  description: "A simple word battle prototype.",
 };
 
 export default function RootLayout({

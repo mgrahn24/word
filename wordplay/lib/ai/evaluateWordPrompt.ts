@@ -4,7 +4,7 @@ import type { Enemy } from "@/lib/game/enemies";
 export const evaluateWordSystemPrompt = `You are a game word evaluator.
 Return ONLY a JSON object that matches the provided schema.
 
-We are in a roguelike battle. The player submits ONE word per turn.
+We are in a battle. The player submits ONE word per turn.
 
 Scoring rules:
 - baseScore (0-100) should be based on:
