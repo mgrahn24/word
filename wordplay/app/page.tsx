@@ -357,8 +357,6 @@ export default function Home() {
                   </Button>
                 </div>
 
-                {/* Cards moved below the damage calc to reduce vertical clutter while attacking. */}
-
                 {error && (
                   <div className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm">
                     <div className="font-medium">Error</div>
@@ -366,7 +364,7 @@ export default function Home() {
                   </div>
                 )}
 
-                {lastEval && (
+                {lastEval ? (
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-lg">Damage</CardTitle>
@@ -437,63 +435,54 @@ export default function Home() {
                           </div>
                         </CollapsibleContent>
                       </Collapsible>
-
-                      <Separator />
-
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="outline">Cards: {game.cards.length}</Badge>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setShowFullCards((s) => !s)}
-                        >
-                          {showFullCards ? "Compact cards" : "Show full cards"}
-                        </Button>
-                      </div>
-
-                      {showFullCards ? (
-                        <div className="grid gap-3 sm:grid-cols-2">
-                          {game.cards.map((c) => (
-                            <Card key={c.id} className="border-dashed">
-                              <CardHeader className="pb-2">
-                                <CardTitle className="text-base">{c.label}</CardTitle>
-                                <CardDescription>{c.description}</CardDescription>
-                              </CardHeader>
-                              <CardContent className="text-sm text-muted-foreground">
-                                <div className="font-medium text-foreground">Ability</div>
-                                <div>{c.ability.display}</div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                          {game.cards.length === 0 ? (
-                            <div className="text-sm text-muted-foreground">No cards yet.</div>
-                          ) : null}
-                        </div>
-                      ) : (
-                        <div className="flex flex-wrap gap-2">
-                          {game.cards.map((c) => (
-                            <TooltipProvider key={c.id}>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Badge variant="secondary" className="cursor-help">
-                                    {c.label}
-                                  </Badge>
-                                </TooltipTrigger>
-                                <TooltipContent className="max-w-xs">
-                                  <div className="text-sm font-medium">{c.label}</div>
-                                  <div className="text-sm text-muted-foreground">{c.ability.display}</div>
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          ))}
-                          {game.cards.length === 0 ? (
-                            <span className="text-sm text-muted-foreground">No cards yet</span>
-                          ) : null}
-                        </div>
-                      )}
                     </CardContent>
                   </Card>
-                )}
+                ) : null}
+
+                {/* Cards should be visible on mobile; do not rely on hover tooltips. */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="outline">Cards: {game.cards.length}</Badge>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowFullCards((s) => !s)}
+                    >
+                      {showFullCards ? "Compact" : "Details"}
+                    </Button>
+                  </div>
+
+                  {game.cards.length === 0 ? (
+                    <div className="text-sm text-muted-foreground">No cards yet.</div>
+                  ) : showFullCards ? (
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {game.cards.map((c) => (
+                        <Card key={c.id} className="border-dashed">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-base">{c.label}</CardTitle>
+                            <CardDescription>{c.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="text-sm text-muted-foreground">
+                            <div className="font-medium text-foreground">Ability</div>
+                            <div>{c.ability.display}</div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {game.cards.map((c) => (
+                        <div
+                          key={c.id}
+                          className="rounded-lg border bg-muted/20 px-3 py-2"
+                        >
+                          <div className="text-sm font-semibold">{c.label}</div>
+                          <div className="text-xs text-muted-foreground">{c.description}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

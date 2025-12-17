@@ -552,9 +552,13 @@ function abilitiesForLevel(level: number): EnemyAbility[] {
 }
 
 function statsForLevel(level: number): { maxHp: number; turns: number } {
-  // Keep the early game readable; ramp the numbers late game.
-  const maxHp = Math.round(140 + Math.pow(level, 1.35) * 85);
-  const turns = Math.min(12, 6 + Math.floor(level / 3));
+  // Slightly tankier enemies, fewer turns (more pressure).
+  const maxHp = Math.round(170 + Math.pow(level, 1.35) * 92);
+
+  // Start lower and grow slower than before.
+  // Level 1: 5 turns, midgame ~7, late game tops at 9.
+  const turns = Math.min(9, 5 + Math.floor(level / 4));
+
   return { maxHp, turns };
 }
 
